@@ -36,6 +36,7 @@ export const getFeedPosts = async (req, res) => {
   }
 };
 
+/* READ POST FOR SPECIFIC USER*/
 export const getUserPosts = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -72,7 +73,8 @@ export const likePost = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
-// add comment
+
+// ADD COMMENT
 export const addComment = async (req, res)=>{
   const {message} = req.body;
   const postId = req.params.postId;

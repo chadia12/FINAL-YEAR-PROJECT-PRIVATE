@@ -58,16 +58,20 @@ import {
       },
       
     });
+
     const updatedPost = await response.json();
-    dispatch(setPost({ post: updatedPost }));
+      dispatch(setPost({ post: updatedPost }));
   };
-   const showCommentFormFunc =()=>{
-    setisAddcommtbtn(!isAddcommtbtn)
+
+   const displayComment =()=>{
+     setisAddcommtbtn(!isAddcommtbtn)
    }
-   const addCommentFunc = (event)=>{
-    event.preventDefault();
-    patchCommt();
-    setisAddcommtbtn(!isAddcommtbtn)
+
+   const handleComment = (event)=>{
+     event.preventDefault();
+     patchCommt();
+     setisAddcommtbtn(!isAddcommtbtn);
+     setCommentInput("")
    }
    return (
      <WidgetWrapper m="2rem 0">
@@ -129,7 +133,7 @@ import {
        )}
 <FlexBetween gap="0.75rem" >
        <Button
-          onClick={showCommentFormFunc}
+          onClick={displayComment}
           sx={{
             color: palette.background.alt,
             backgroundColor: palette.primary.main,
@@ -156,7 +160,7 @@ import {
           }}
         />
           <Button
-         onClick={addCommentFunc}
+         onClick={handleComment}
           sx={{
             color: palette.background.alt,
             backgroundColor: palette.primary.main,
