@@ -248,6 +248,19 @@ const Form = () => {
               {isLogin ? "LOGIN" : "REGISTER"}
             </Button>
             <Typography
+            onClick= {() =>{
+              navigate("/forgotpass");
+            }}
+             sx={{
+              textDecoration: "underline",
+              color: palette.primary.main,
+              "&:hover": {
+                cursor: "pointer",
+                color: palette.primary.light,
+              },
+            }}
+            >Forgot password?</Typography>
+            <Typography
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();
@@ -261,6 +274,7 @@ const Form = () => {
                 },
               }}
             >
+              
               {isLogin
                 ? "Don't have an account? Sign Up here."
                 : "Already have an account? Login here."}
