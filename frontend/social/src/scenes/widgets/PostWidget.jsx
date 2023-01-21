@@ -4,6 +4,7 @@ import {
    FavoriteOutlined,
    ShareOutlined,
  } from "@mui/icons-material";
+ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
  import { Box, Divider, IconButton, Typography, useTheme,Button,InputBase } from "@mui/material";
  import FlexBetween from "components/FlexBetween";
  import Friend from "components/Friend";
@@ -73,6 +74,19 @@ import {
      setisAddcommtbtn(!isAddcommtbtn);
      setCommentInput("")
    }
+
+   
+const handleDelete = async ()=>{
+  const response = await fetch(`http://localhost:3002/posts/${postUserId}/${postId}`,{
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json"},
+  });
+  const deletedPost = await response.json();
+ 
+}
+
+
    return (
      <WidgetWrapper m="2rem 0">
        <Friend
@@ -114,8 +128,9 @@ import {
            </FlexBetween>
          </FlexBetween>
  
-         <IconButton>
-           <ShareOutlined />
+         <IconButton onClick={handleDelete}>
+           {/* <ShareOutlined /> */}
+           < HighlightOffIcon />
          </IconButton>
        </FlexBetween>
        {isComments && (

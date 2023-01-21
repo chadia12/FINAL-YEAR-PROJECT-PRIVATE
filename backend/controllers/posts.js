@@ -81,7 +81,26 @@ export const addComment = async (req, res)=>{
   try{
     const result = await Post.updateOne({_id:postId}, {$push:{comments:message}}, {$upset:true});
     res.status(200).json(result)
-  }catch(e){
+  }catch(err){
     res.status(404).json({ message: err.message });
   }
+}
+
+// DELETE POST
+export const deletePost = async (req, res) =>{
+  const { userId } = req.params;
+  const { postId } = req.params;
+  try{
+    const post = await Post.findOne({_id: postId, userId: userId});
+    if(!post){
+      res.status(404).json('Post not found');
+    }else{
+      const result = await post.remove();
+      res.status(200).json(result); 
+    }
+
+  }catch(err){
+    res.status(404).json({ message: err.message });
+  }
+
 }

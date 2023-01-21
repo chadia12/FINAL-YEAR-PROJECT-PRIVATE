@@ -24,7 +24,7 @@ const AdvertWidget = () =>{
       style={{ borderRadius: "0.75rem", margin: "0.75rem 0"}}
        />
        <FlexBetween>
-          <Typography color={main}>ChadiaCosmetics</Typography>
+          <Typography color={main} pr="0.5rem">ChadiaCosmetics </Typography>
           <Typography color={medium}>chadiaCosmetics.com</Typography>
        </FlexBetween>
        <Typography color={medium} m="0.5rem 0">
