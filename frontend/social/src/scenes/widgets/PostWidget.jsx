@@ -147,9 +147,7 @@ const handleDelete = async ()=>{
            </FlexBetween>
          </FlexBetween>
          <IconButton onClick={handleDelete}>
-           {/* <ShareOutlined /> */}
            < HighlightOffIcon />
-           <ToastContainer />
          </IconButton>
        </FlexBetween>
        {isComments && (
