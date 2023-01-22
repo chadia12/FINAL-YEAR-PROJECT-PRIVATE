@@ -11,7 +11,7 @@ import {
  import { useState } from "react";
  import { useDispatch, useSelector } from "react-redux";
  import { setPost, setPosts } from "state";
- import { useNavigate } from "react-router-dom";
+ 
  
  
  const PostWidget = ({
@@ -30,14 +30,13 @@ import {
    const token = useSelector((state) => state.token);
    const loggedInUserId = useSelector((state) => state.user._id);
 
-   const posts = useSelector((state) => state.posts);
+  //  const posts = useSelector((state) => state.posts);
 
    const isLiked = Boolean(likes[loggedInUserId]);
    const likeCount = Object.keys(likes).length;
     const [isAddcommtbtn, setisAddcommtbtn] = useState(false)
    const [commentinput, setCommentInput] = useState({message:" "});
    const { palette } = useTheme();
-   const navigate = useNavigate();
    const main = palette.neutral.main;
    const primary = palette.primary.main;
    
@@ -76,12 +75,7 @@ import {
    }
 
   
-   const handleComment = (event)=>{
-     event.preventDefault();
-     patchCommt();
-     setisAddcommtbtn(!isAddcommtbtn);
-     setCommentInput("")
-   }
+   
 
 
 const handleGetPosts = async()=>{
@@ -94,6 +88,13 @@ const handleGetPosts = async()=>{
 
 }
 
+const handleComment = (event)=>{
+  event.preventDefault();
+  patchCommt();
+  setisAddcommtbtn(!isAddcommtbtn);
+  setCommentInput("")
+  handleGetPosts();
+}
 
 const handleDelete = async ()=>{
   const response = await fetch(`http://localhost:3002/posts/${postUserId}/${postId}`,{
@@ -105,6 +106,7 @@ const handleDelete = async ()=>{
   handleGetPosts();
 
 }
+
 
    return (
      <WidgetWrapper m="2rem 0">
