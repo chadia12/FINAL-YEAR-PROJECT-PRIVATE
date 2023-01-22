@@ -2,7 +2,6 @@ import {
    ChatBubbleOutlineOutlined,
    FavoriteBorderOutlined,
    FavoriteOutlined,
-   ShareOutlined,
  } from "@mui/icons-material";
  import HighlightOffIcon from '@mui/icons-material/HighlightOff';
  import { Box, Divider, IconButton, Typography, useTheme,Button,InputBase } from "@mui/material";
@@ -11,7 +10,9 @@ import {
  import WidgetWrapper from "components/WidgetWrapper";
  import { useState } from "react";
  import { useDispatch, useSelector } from "react-redux";
- import { setPost } from "state";
+ import { setPost, setPosts } from "state";
+ import { useNavigate } from "react-router-dom";
+ 
  
  const PostWidget = ({
    postId,
@@ -28,13 +29,18 @@ import {
    const dispatch = useDispatch();
    const token = useSelector((state) => state.token);
    const loggedInUserId = useSelector((state) => state.user._id);
+
+   const posts = useSelector((state) => state.posts);
+
    const isLiked = Boolean(likes[loggedInUserId]);
    const likeCount = Object.keys(likes).length;
     const [isAddcommtbtn, setisAddcommtbtn] = useState(false)
    const [commentinput, setCommentInput] = useState({message:" "});
    const { palette } = useTheme();
+   const navigate = useNavigate();
    const main = palette.neutral.main;
    const primary = palette.primary.main;
+   
  
    const patchLike = async () => {
      const response = await fetch(`http://localhost:3002/posts/${postId}/like`, {
@@ -64,10 +70,12 @@ import {
       dispatch(setPost({ post: updatedPost }));
   };
 
+
    const displayComment =()=>{
      setisAddcommtbtn(!isAddcommtbtn)
    }
 
+  
    const handleComment = (event)=>{
      event.preventDefault();
      patchCommt();
@@ -75,7 +83,18 @@ import {
      setCommentInput("")
    }
 
-   
+
+const handleGetPosts = async()=>{
+ const response = await fetch("http://localhost:3002/posts", {
+  method: "GET",
+  headers: { Authorization: `Bearer ${token}` }
+ });
+ const data = await response.json();
+ dispatch(setPosts({posts: data}))
+
+}
+
+
 const handleDelete = async ()=>{
   const response = await fetch(`http://localhost:3002/posts/${postUserId}/${postId}`,{
     method: "DELETE",
@@ -83,9 +102,9 @@ const handleDelete = async ()=>{
     "Content-Type": "application/json"},
   });
   const deletedPost = await response.json();
- 
-}
+  handleGetPosts();
 
+}
 
    return (
      <WidgetWrapper m="2rem 0">
@@ -127,10 +146,10 @@ const handleDelete = async ()=>{
              <Typography>{comments.length}</Typography>
            </FlexBetween>
          </FlexBetween>
- 
          <IconButton onClick={handleDelete}>
            {/* <ShareOutlined /> */}
            < HighlightOffIcon />
+           <ToastContainer />
          </IconButton>
        </FlexBetween>
        {isComments && (
