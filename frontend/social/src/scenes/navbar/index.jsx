@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import {
   Box,
   IconButton,
@@ -20,27 +20,54 @@ import {
   Menu,
   Close,
 } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import './styles.css';
 import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import FlexBetween from "components/FlexBetween";
+import { useEffect } from "react";
+import WidgetWrapper from "components/WidgetWrapper";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState([]);
+ 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
+  
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
 
-  const fullName = `${user.firstName} ${user.lastName}`;
 
+  const handleSearch = async () =>{
+   
+const response = await fetch(`http://localhost:3002/users/search`,{
+  method: "GET",
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+});
+const data = await response.json();
+setSearch(data);
+ 
+  }
+  useEffect(()=>{
+    handleSearch()
+  },[] )
+
+
+  const fullName = `${user.firstName} ${user.lastName}`;
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -65,12 +92,45 @@ const Navbar = () => {
             gap="3rem"
             padding="0.1rem 1.5rem"
           >
-            <InputBase placeholder="Search..." />
-            <IconButton>
+
+            <InputBase placeholder="Search..." 
+            value={searchInput}
+            onChange={ (e)=> setSearchInput( e.target.value )}
+           />
+            <IconButton onClick={handleSearch}>
               <Search />
             </IconButton>
+
           </FlexBetween>
+         
+
         )}
+
+<FlexBetween>
+<div className="search-container">
+              <div className="dropdown">
+              {search.filter((user) =>{
+const searchTerm = searchInput.toLowerCase();
+const firstName = user.firstName.toLowerCase();
+return (
+  searchTerm &&
+  firstName.startsWith(searchTerm) &&
+  firstName !== searchTerm
+);
+              }).map((item) =>(
+                <div className="dropdown-row"
+                onClick={handleSearch}
+                key= {item._id}
+                >
+               <Link to={`/profile/${item._id}`}>{item.firstName} {item.lastName}  </Link> 
+                </div>
+              ))}
+</div>
+         
+         </div> 
+</FlexBetween>
+
+       
       </FlexBetween>
 
       {/* DESKTOP NAV */}

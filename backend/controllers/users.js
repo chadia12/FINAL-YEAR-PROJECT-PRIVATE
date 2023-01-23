@@ -15,6 +15,20 @@ export const getUser = async (req, res) => {
   }
 };
 
+// ALL USERS
+export const getAllUsers = async (req, res) =>{
+  try{
+    const users = await User.find();
+    const allUsers = users.map(user=>{
+      return {_id:user._id,firstName: user.firstName, lastName: user.lastName}
+    })
+    res.status(200).json(allUsers);
+  }catch(err){
+    res.status(500).json({ message: err.message });
+  }
+}
+
+//USER FRINDS
 export const getUserFriends = async (req, res) => {
   try {
     const { id } = req.params;
