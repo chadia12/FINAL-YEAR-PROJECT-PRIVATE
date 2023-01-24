@@ -24,7 +24,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `http://localhost:3002/users/${_id}/${friendId}`,
+      `https://friend-link.herokuapp.com/users/${_id}/${friendId}`,
       {
         method: "PATCH",
         headers: {

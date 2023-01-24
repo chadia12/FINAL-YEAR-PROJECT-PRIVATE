@@ -42,7 +42,7 @@ import {
    
  
    const patchLike = async () => {
-     const response = await fetch(`http://localhost:3002/posts/${postId}/like`, {
+     const response = await fetch(`https://friend-link.herokuapp.com/posts/${postId}/like`, {
        method: "PATCH",
        headers: {
          Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ import {
    };
 
    const patchCommt = async () => {
-    const response = await fetch(`http://localhost:3002/posts/${postId}`, {
+    const response = await fetch(`https://friend-link.herokuapp.com/posts/${postId}`, {
       method: "PATCH",
       body:JSON.stringify({message:commentinput.message}),
       headers: {
@@ -79,7 +79,7 @@ import {
 
 
 const handleGetPosts = async()=>{
- const response = await fetch("http://localhost:3002/posts", {
+ const response = await fetch("https://friend-link.herokuapp.com/posts", {
   method: "GET",
   headers: { Authorization: `Bearer ${token}` }
  });
@@ -97,7 +97,7 @@ const handleComment = (event)=>{
 }
 
 const handleDelete = async ()=>{
-  const response = await fetch(`http://localhost:3002/posts/${postUserId}/${postId}`,{
+  const response = await fetch(`https://friend-link.herokuapp.com/posts/${postUserId}/${postId}`,{
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}`,
     "Content-Type": "application/json"},
@@ -125,7 +125,7 @@ const handleDelete = async ()=>{
            height="auto"
            alt="post"
            style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-           src={`http://localhost:3002/assets/${picturePath}`}
+           src={`https://friend-link.herokuapp.com/assets/${picturePath}`}
          />
        )}
        <FlexBetween mt="0.25rem">
