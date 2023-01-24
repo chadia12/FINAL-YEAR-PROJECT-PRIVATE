@@ -54,14 +54,14 @@ app.use("/posts", postRoutes);
 app.use("/forgotpass", userRoutes);
 
 /* MONGOOSE SETUP */
-const PORT = process.env.PORT || 6001;
+const port = process.env.PORT || 8000;
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    app.listen(port, () => console.log(`Server Port: ${port}`));
 
     /* ADD DATA ONE TIME */
     // User.insertMany(users);
